@@ -32,4 +32,3 @@ while True:
 
     print(f'Отключение клиента {client_address}')
     client_socket.close()
-

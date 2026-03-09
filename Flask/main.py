@@ -1,6 +1,14 @@
 from flask import Flask
 from flask import request, redirect, url_for, render_template
+import logging
+from logging.handlers import RotatingFileHandler
 
+
+logging.basicConfig(
+    filename='app.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s', 
+    )
 
 app = Flask(__name__) # Создание приложения
 
@@ -12,8 +20,11 @@ app = Flask(__name__) # Создание приложения
 # def home():
 #     return redirect(url_for('profile', username='Гость'))
 
+
+
 @app.route("/")
 def home():
+    app.logger.info("Главная страница открыта")
     return render_template('index.html', name='Админ')
 
 
@@ -63,6 +74,30 @@ def users():
 @app.route('/home')
 def homepage():
     return render_template('home.html')
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error(f'Ошибка 500: {error}')
+    return "Ошибка сервера. Попробуйте позже.", 500
+
+@app.errorhandler(403)
+def forbidden(error):
+    return "Доступ запрещен", 403
+
+@app.errorhandler(400)
+def bad_request(error):
+    return "Некорректный запрос.", 400
+
+@app.before_request
+def log_request():
+    app.logger.info(f"Запрос: {request.method} {request.url}")
+
+handler = RotatingFileHandler("server.log", maxBytes=100000, backupCount=3)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+
 
 if __name__ == '__main__':
     app.run(debug=True) # Запуск сервера в режиме отладки

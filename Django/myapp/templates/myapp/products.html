@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Список товаров</title>
+    </head>
+    <body>
+        {% if items %}
+        <h1>Наши товары</h1>
+        <ul>
+            {% for item in items %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h1>Товары отсутствуют</h1>
+        <p> На данный момент у вас нет доступных товаров.</p>
+        {% endif %}
+    </body>
+</html>

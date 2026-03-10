@@ -21,7 +21,30 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-        <button class="btn btn-primary">Нажми меня</button>
+    <form method="post">
+        {% csrf_token %}
+        <label for = "name">Имя: </label>
+        <input type = "text" name="name" required>
+        <button type = "submit">Отправить</button>
+    </form>
+    {% if form.errors %}
+    <p>Ошибка:</p>
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <button class="btn btn-primary">Нажми меня</button>
     <footer>
         <p>&copy; 2026 Все права защищены</p>
     </footer>

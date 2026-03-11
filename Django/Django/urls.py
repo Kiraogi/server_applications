@@ -15,12 +15,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path
-from myapp.views import home, about
+from myapp.views import home, about, register, user_list, user_login, UserList
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="User API",
+        default_version='v1',
+        description="Документация API",
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('about/', about, name='about'),
+    path('register/', register, name='register'),
+    path('login/', user_login, name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('api/', user_list),
+    path('api/users/', UserList.as_view()),
+    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
 

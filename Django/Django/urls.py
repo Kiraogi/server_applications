@@ -19,6 +19,7 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 from myapp.views import home, about, register, user_list, user_login, UserList
 from rest_framework import permissions
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -42,6 +43,8 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('api/', user_list),
     path('api/users/', UserList.as_view()),
-    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/token/refresh/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 

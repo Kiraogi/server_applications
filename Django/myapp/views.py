@@ -107,6 +107,13 @@ def user_login(request):
         form = LoginForm()
     return render(request, "login.html", {'form': form})    
 
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "Вы авторизованы!"})
+
 @login_required
 def profile(request):
     return render(request, "profile.html")

@@ -50,6 +50,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'myapp.middleware.RequestLoggerMiddleware',
+    'myapp.middleware.SecurityHeadersMiddleware',
+    'myapp.middleware.IPBlockMiddleware',
+    'myapp.middleware.MinifyHTMLMiddleware',
+    'myapp.middleware.ForceHTTPSMiddleware',
+    'myapp.middleware.LocalMiddleware',
+    'myapp.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'Django.urls'

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -105,3 +106,14 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, "login.html", {'form': form})    
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")
+
+
+@permission_required('app.can_edit')
+def admin_dashboard(request):
+    return render(request, "admin_dashboard.html")
+
+

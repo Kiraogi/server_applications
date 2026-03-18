@@ -1,12 +1,15 @@
-from aiohttp import web
+import asyncio
 
-async def handle(request): # Асинхронный обработчик запросов
-    return web.Response(text="Привет мир! Это асинхронный сервер на aiohttp.")
+async def handle_request():
+    print("Обработка запроса...")
+    await asyncio.sleep(2)  # Имитация задержки
+    print("Запрос обработан!")
 
-app = web.Application()
-app.router.add_get("/", handle) # Регистрация запроса GET
+async def main():
+    task1 = asyncio.create_task(handle_request())
+    task2 = asyncio.create_task(handle_request())
 
-web.run_app(app, port=8080) # Запуск сервера по порту 8080
+    await task1
+    await task2
 
-
-
+asyncio.run(main())
